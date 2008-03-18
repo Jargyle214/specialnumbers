@@ -27,7 +27,7 @@ The code above is not very complicated, but suffers from these problems:
 we have to define getters for the variable and all its derivatives, and
 we cannot reuse the code for other types of variables (such as rotation, for example), without writing messy pointer code or the like.
 
-DifferentialNumber encapsulates a varaible, some of its derivatives, and the logic to update them. We can now declare position as a DifferentiableNumber, and automatically have the velocity and acceleration:
+DifferentiableNumber encapsulates a variable, some of its derivatives, and the logic to update them. We can now declare position as a DifferentiableNumber, and automatically have the velocity and acceleration:
 
 {{{
 class RigidBodyPhysics
