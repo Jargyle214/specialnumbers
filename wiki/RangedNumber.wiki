@@ -1,0 +1,57 @@
+#labels Featured
+#A RangedNumber is a number that falls in a specified range, and can take appropriate action if attempts are made to set the number's value outside that range
+
+In any program numeric values must lie in a certain range. When the range is large enough, we don't really care about it. However, for small, specific ranges, we often have to write code to check that the value is in range wherever we update it, and take appropriate action if it is not:
+n++; //n is an int
+
+{{{
+if (n >= max) //max is the maximum value for n
+	n = max – 1; //clamp it!
+else if (n < min)
+	n = min;
+}}}
+Alternatively we can write:
+
+{{{
+n = clamp(n+1, min, max);
+}}}
+
+where clamp is a function defined somewhere else.
+Although the second approach is better than the first, both suffer from the following problems:
+  * we must carry the bounds (min and max) wherever n is updated, 
+  * we must remember to add the additional logic when we update n, and
+  * we must remember to add logic to check and change the value of n whenever the boundaries change. 
+ClampedNumber solves the problem by wrapping the value in a class, and then perform the logic in the class wherever the value is updated. We can now write:
+
+{{{
+n++;
+}}}
+
+The operator overload function now performs bound checking for us.
+CyclicNumber and PingPongNumber work the same, except that different actions are taken when the number goes out of range. The following code illustrates the difference between the three types of number:
+
+{{{
+ClampedNumber n0(0, 0, 3, 1);
+CyclicNumber n1(0, 0, 3, 1);
+PingPongNumber n2(0, 0, 3, 1);
+
+for(int i = 0; i < 10; i++)
+{
+	n0++;
+	n1++;
+	n2++;
+	cout << n0 << “ “ << n1 << “ “ << n2 << endl;
+}
+}}}
+
+Output:
+0 0 0
+1 1 1
+2 2 2
+2 0 1
+2 1 0
+2 2 1
+2 0 2
+2 1 1
+2 2 0
+2 0 1
