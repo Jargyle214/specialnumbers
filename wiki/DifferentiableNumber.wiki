@@ -1,0 +1,80 @@
+#labels Featured
+In physical simulations we often need to keep track of a variable, and a few of its derivatives. Here is an example:
+{{{
+class RigidBodyPhysics
+{
+private:
+	Vector2 position;
+	Vector2 previousPosition;
+	Vector2 velocity;
+	Vector2 previousVelocity;
+	Vector3 acceleration;
+public:
+	void updatePosition(Vector2 newPosition, Time elapsedTime);
+	//... getters for position, velocity, and acceleration.
+};
+
+void RigidBodyPhysics::updatePosition(Vector2 newPosition, Time elapsedTime)
+{
+	previousPosition = position;
+	position = newPosition;
+	previousVelocity = velocity;
+	velocity = (position – previousPosition) / elapsedTime;
+}
+}}}
+
+The code above is not very complicated, but suffers from these problems:
+we have to define getters for the variable and all its derivatives, and
+we cannot reuse the code for other types of variables (such as rotation, for example), without writing messy pointer code or the like.
+
+DifferentialNumber encapsulates a varaible, some of its derivatives, and the logic to update them. We can now declare position as a DifferentiableNumber, and automatically have the velocity and acceleration:
+
+{{{
+class RigidBodyPhysics
+{
+private:
+	DifferentiableNumber<2, Vector2> position(Vector2(0, 0));
+	
+public:
+	void updatePosition(Vector2 newPosition, Time elapsedTime);
+	//... getters for position, velocity, and acceleration.
+};
+
+void RigidBodyPhysics::updatePosition(Vector2 newPosition, Time elapsedTime)
+{
+	 position.setValue(newPosition, elapsedTime);
+}
+
+Vector2 RigidBodyPhysics::getPosition()
+{
+	return position.getValue(0);
+}
+
+Vector2 RigidBodyPhysics::getVelocity()
+{
+	return position.getValue(1);
+}
+
+Vector2 RigidBodyPhysics::getAcceleration()
+{
+	return position.getValue(2);
+}
+}}}
+
+Notice how easy it is to add another derivative: change the number of derivatives template parameter, and add the necessary getter.
+{{{
+class RigidBodyPhysics
+{
+private:
+	DifferentiableNumber<3, Vector2> position(Vector2(0, 0));
+	
+public:
+	void updatePosition(Vector2 newPosition, Time elapsedTime);
+	//... getters for position, velocity, and acceleration.
+};
+
+Vector2 RigidBodyPhysics::getJerk()
+{
+	return position.getValue(3);
+}
+}}}
