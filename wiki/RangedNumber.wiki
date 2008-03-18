@@ -1,5 +1,5 @@
 #labels Featured
-#A RangedNumber is a number that falls in a specified range, and can take appropriate action if attempts are made to set the number's value outside that range
+A RangedNumber is a number that falls in a specified range, and can take appropriate action if attempts are made to set the number's value outside that range
 
 In any program numeric values must lie in a certain range. When the range is large enough, we don't really care about it. However, for small, specific ranges, we often have to write code to check that the value is in range wherever we update it, and take appropriate action if it is not:
 n++; //n is an int
@@ -44,7 +44,8 @@ for(int i = 0; i < 10; i++)
 }
 }}}
 
-Output:
+Output
+{{{
 0 0 0
 1 1 1
 2 2 2
@@ -55,3 +56,4 @@ Output:
 2 1 1
 2 2 0
 2 0 1
+}}}
