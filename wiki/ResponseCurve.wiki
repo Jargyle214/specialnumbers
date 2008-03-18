@@ -1,0 +1,18 @@
+#labels Featured
+This is an implementation of the Response Curves discussed by Bob Alexander in his The Beauty of Response Curves (Game AI Programming Wisdom 1).
+
+Essentially, this class provides an efficient implementation of arbitrary functions (approximated by line segments).
+The following is a linear approximation for cos (in the range 0 to π):
+
+{{{
+float outputSamples[11] = {1.0, 0.95f, 0.81f, 0.59f, 0.31f, 0.0f, -0.31f, -0.59f, -0.81f, -0.95f, -1.0f};
+ResponseCurve<10, float> cos2(0.0f, 3.14f, outputSamples);
+
+for (int i = 0; i < 100; i++)
+{
+	float x = 3.14f * i / 100.0f;
+	cout << abs(cos(x) – cos2(x));
+}
+}}}
+
+Essentially, this class provides a implementation for a lookup table with linear interpolation.
