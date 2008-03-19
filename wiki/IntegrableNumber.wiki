@@ -1,8 +1,6 @@
 #summary An IntegrableNumber is a number that keeps track of its own integrals (sums) over a fixed number of updates.
 #labels Featured
 
-An IntegrableNumber is a number that keeps track of its own integrals over a fixed number of updates.
-
 This is for example useful for keeping a running average of a sequence of values.
 
 For example, 
