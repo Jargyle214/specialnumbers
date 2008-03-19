@@ -1,0 +1,40 @@
+#summary An IntegrableNumber is a number that keeps track of its own integrals (sums) over a fixed number of updates.
+
+An IntegrableNumber is a number that keeps track of its own integrals over a fixed number of updates.
+
+This is for example useful for keeping a running average of a sequence of values.
+
+For example, 
+
+{{{
+
+Integrable<float, 1, 3> v(0);
+
+...
+
+void update(float currentValue)
+{
+   v.setValue(currentValue);
+
+   average = 0.3333f * v.getValue(1);
+}
+
+}}}
+
+Here {{{v}}} keeps track of the last three values of v, sothat the average value of v over three updates is given by {{{1.0 / 3 * v.getValue()}}}. We can also keep an average of the average:
+
+{{{
+
+Integrable<float, 2, 3> v(0);
+
+...
+
+void update(float currentValue)
+{
+   v.setValue(currentValue);
+
+   average = 0.1111f * v.getValue(2);
+}
+
+}}}
+
