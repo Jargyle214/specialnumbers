@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PeriodicResponseCurve.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PIDBufferedNumber.h"
 				>
 			</File>
