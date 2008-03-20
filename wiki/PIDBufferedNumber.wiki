@@ -50,4 +50,4 @@ float update(float x)
 
 ===Links===
    * [http://www.embedded.com/2000/0010/0010feat3.htm PID Without a PhD] A Good practical guide. [Note: this author use the actual value for the differential term, not the error].
-   * [http://en.wikipedia.org/wiki/PID_controller PID Controller (Wikipedia)] A good introduction.
+   * [http://en.wikipedia.org/wiki/PID_controller PID Controller (Wikipedia)] A good introduction to PID controllers.
