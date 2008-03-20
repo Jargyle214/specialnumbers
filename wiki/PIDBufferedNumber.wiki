@@ -30,7 +30,21 @@ To implement an PID controller is easy:
 
 {{{
 
+float dWeights[] = {0.25f};
+float iWeights[] = {0.25f};
+float weight = 0.5f;
 
+PIDBufferedNumber<float, 1, 1, 3> pidBufferedNumber(0.0f);
+
+...
+
+float update(float x)
+{
+   float error = pidBufferedError.getValue() - x;
+ 
+   pidBufferedError.setValue(error);
+   return pidBufferedError.getValue();
+}
 
 }}}
 
