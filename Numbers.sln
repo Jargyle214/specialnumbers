@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumbersLib", "NumberLib\NumbersLib\NumbersLib.vcproj", "{606B7CA0-E155-4792-BAB0-024125A0D8D1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumberTest", "NumberTest\NumberTest.vcproj", "{05ACA6DF-0384-4037-880B-6A60AD769EF1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{606B7CA0-E155-4792-BAB0-024125A0D8D1} = {606B7CA0-E155-4792-BAB0-024125A0D8D1}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{606B7CA0-E155-4792-BAB0-024125A0D8D1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{606B7CA0-E155-4792-BAB0-024125A0D8D1}.Debug|Win32.Build.0 = Debug|Win32
+		{606B7CA0-E155-4792-BAB0-024125A0D8D1}.Release|Win32.ActiveCfg = Release|Win32
+		{606B7CA0-E155-4792-BAB0-024125A0D8D1}.Release|Win32.Build.0 = Release|Win32
+		{05ACA6DF-0384-4037-880B-6A60AD769EF1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{05ACA6DF-0384-4037-880B-6A60AD769EF1}.Debug|Win32.Build.0 = Debug|Win32
+		{05ACA6DF-0384-4037-880B-6A60AD769EF1}.Release|Win32.ActiveCfg = Release|Win32
+		{05ACA6DF-0384-4037-880B-6A60AD769EF1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
