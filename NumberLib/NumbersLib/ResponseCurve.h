@@ -45,6 +45,9 @@ public:
 	*/
 	T operator()(const T input);
 
+	inline public T getInputMin();
+	inline public T getInputMax();
+
 private:
 	T mInputMin;
 	T mInputMax;
@@ -86,6 +89,18 @@ T ResponseCurve<n, T>::operator()(const T input)
 	T inputSampleMin = mInputMin + mPeriod*index;
 
 	return lerp(input, inputSampleMin, inputSampleMin + mPeriod, mOutputSamples[index], mOutputSamples[index + 1]);
+}
+
+template <unsigned int n, class T>
+T ResponseCurve<n, T>::getInputMin()
+{
+	return mInputMin;
+} 
+
+template <unsigned int n, class T>
+T ResponseCurve<n, T>::getInputMax()
+{
+	return mInputMax;
 }
 
 };}; //namespace
