@@ -5,7 +5,7 @@ The following code illustrates how to get a simple (first order) PID controller 
 
 {{{
 y_n = 0.5 * x_n + 0.25 D x_n + I x_n
-    = 0.5 * x_n + 0.25 (x_n + x_{n-1}) +  (x_n + x_{n+1} + + x_{n+2})
+    = 0.5 * x_n + 0.25 (x_n - x_{n-1}) +  (x_n + x_{n+1} + + x_{n+2})
 }}}
 
 {{{
