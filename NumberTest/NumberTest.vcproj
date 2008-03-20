@@ -235,6 +235,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\TestPeriodicResponseCurve.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TestPIDBufferedNumber.h"
 					>
 				</File>

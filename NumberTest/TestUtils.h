@@ -47,7 +47,9 @@ SUITE(TestUtils)
 		CHECK_CLOSE(3.9f, mod(3.9f, 1.0f, 4.0f), FLOAT_THRESHOLD);
 		CHECK_CLOSE(1.9f, mod(4.9f, 1.0f, 4.0f), FLOAT_THRESHOLD);
 		CHECK_CLOSE(2.9f, mod(14.9f, 1.0f, 4.0f), FLOAT_THRESHOLD);
+		CHECK_CLOSE(1.0f, mod(4.0f, 1.0f, 4.0f), FLOAT_THRESHOLD);
 	}
+
 
 	TEST(TestReflectInt)
 	{
