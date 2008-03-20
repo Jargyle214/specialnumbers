@@ -1,7 +1,7 @@
 #summary A PIDBufferedNumber keeps track of its derivatives and integrals, and can return a weighted sum of them and its current value.
 #labels Featured
 
-The following code illustrates how to get a simple (first order) PID controller that will calculate the following:
+The following code illustrates how to get a simple (first order) PID buffered number that will calculate the following:
 
 {{{
 y_n = 0.5 * x_n + 0.25 * D x_n + 0.25 * I x_n
@@ -24,6 +24,16 @@ float update(float x)
 
    return y;
 }
+}}}
+
+To implement an PID controller is easy:
+
+{{{
+
 
 
 }}}
+
+===Links===
+   * http://www.embedded.com/2000/0010/0010feat3.htm
+   * http://en.wikipedia.org/wiki/PID_controller
