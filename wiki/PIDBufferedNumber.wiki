@@ -1,0 +1,29 @@
+#summary A PIDBufferedNumber keeps track of its derivatives and integrals, and can return a weighted sum of them and its current value.
+#labels Featured
+
+The following code illustrates how to get a simple (first order) PID controller that will calculate the following:
+
+{{{
+y_n = 0.5 * x_n + 0.25 D x_n + I x_n
+    = 0.5 * x_n + 0.25 (x_n + x_{n-1}) +  (x_n + x_{n+1} + + x_{n+2})
+}}}
+
+{{{
+float dWeights[] = {0.25f};
+float iWeights[] = {0.25f};
+float weight = 0.5f;
+
+PIDBufferedNumber<float, 1, 1, 3> pidBufferedNumber(0.0f);
+
+...
+
+float update(float x)
+{
+   pidBufferedNumber.setValue(x);
+   float y = pidBufferedNumber.getValue();
+
+   return y;
+}
+
+
+}}}
