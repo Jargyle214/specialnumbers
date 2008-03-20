@@ -21,6 +21,8 @@
 #include "TestDifferentiableNumber.h"
 #include "TestIntegrableNumber.h"
 #include "TestPIDBufferedNumber.h"
+
+#include "TestPeriodicResponseCurve.h"
  
 int main(int , char * [])
 {
