@@ -10,7 +10,7 @@
 
 	@author Herman Tulleken (herman@luma.co.za)
 	@author luma/games (http://www.luma.co.za/)
-	@version 1.2
+	@version 1.3
 */
 
 /**
@@ -74,9 +74,7 @@
 	@par
 	If you are starting fresh, you can leave this #define (the default is 1.0f);
 	you will simply use a different increments and thresholds than somebody who defined
-	FRAME_RATE differently.+
-	
-
+	FRAME_RATE differently.
 
 	@par Changes Version 1.1:
 	-	Made it possible to use all classes in environments 
@@ -85,9 +83,18 @@
 	-	Minor bug fixes.
 
 	@par Changes Version 1.2
-	-	Added IntegrableNumber and PIDBufferedNumber
+	-	Added IntegrableNumber and PIDBufferedNumber.
 	-	Swapped the template parameters of DifferentiableNumber to match ItegrableNumber.
-	
+
+	@par Changes Version 1.3
+	-	Added AbstractFilteredNumber and FilteredNumber.
+	-	Made IntegrableNumber extend FilteredNumber.
+	-	Change some template parameter names to be more readable.
+	-	Made IntegrableNumber store it's sum values divided
+		by the total time.
+	-	Made many methods const.
+	-	Added PeriodicResponseCurve.	
+	-	Added NumberWrapper.
 */
 
 /**
@@ -97,6 +104,8 @@
 #ifndef FRAME_RATE
 #define FRAME_RATE 1.0f
 #endif
+
+#define TIME_UNIT 1.0f
 
 namespace luma
 {
