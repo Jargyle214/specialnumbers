@@ -2,6 +2,7 @@
 #define _INTEGRABLE_NUMBER_H_
 
 #include "CyclicNumber.h"
+#include "AbstractFilteredNumber.h"
 
 namespace luma
 {
@@ -20,15 +21,19 @@ namespace numbers
 	@param n
 		The order of the integrable
 */
-template <class T, unsigned int m, unsigned int n>
-class IntegrableNumber
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+class IntegrableNumber: public AbstractFilteredNumber<T, sampleCount, maxOrder>
 {
 private:
-	T mSamples[m];	
+	T mSamples[sampleCount];	
+	float mTimeSamples[sampleCount];
+
 	CyclicNumber<int> mCurrentIndex;	
 	T mCurrentValue;
 	T mInitialValue;
-	IntegrableNumber<T, m, n - 1> mSum;
+
+	IntegrableNumber<T, sampleCount, maxOrder - 1> mSum;
+	float mTotalTime;
 
 public:
 	/**
@@ -45,6 +50,16 @@ public:
 	void setValue(T x, float elapsedTime = 1.0f);
 
 	/**
+	Forces this integrable number into a long term srteady state.
+	The alpsed time is the time elapsed between samples. For example, 
+	if this integrable number (with say, 10 samples) is forced to a 
+	value of 10, with elapsed 
+	time of 1.0f, then the sum would be 100. If the elapsed time is 3, 
+	then the sum would be 300.
+	*/
+	void forceValue(T x, float elapsedTime = 1.0f);
+
+	/**
 		Returns the integral of 
 		order specified for this IntegrableNumber.
 
@@ -54,44 +69,76 @@ public:
 			-	if 2, the double integral of the value is returned
 			-	if order > n, the initialValue (0) is returned.
 	*/
-	T getValue(int order);
+	T getValue(int order) const;
+
+	/**
+		This returns the nth sample stored. Note that sample[0] 
+		is not necesarily the oldest sample. This method is used 
+		for testing, and should not be generally not be used in 
+		production code. 
+	*/
+	T getSample(int i) const;
 };
 
-template <class T, unsigned int m, unsigned int n>
-IntegrableNumber<T, m, n>::IntegrableNumber(T initialValue):
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+IntegrableNumber<T, sampleCount, maxOrder>::IntegrableNumber(T initialValue):
 	mInitialValue(initialValue),
 	mCurrentValue(initialValue),
-	mCurrentIndex(0, 0, m, 1),
-	mSum(initialValue)
+	mCurrentIndex(0, 0, sampleCount, 1),
+	mSum(initialValue),
+	mTotalTime(sampleCount * TIME_UNIT)
 {
-	for(int i = 0; i < m; i++)
+	for(int i = 0; i < sampleCount; i++)
 	{
 		mSamples[i] = initialValue;
+		mTimeSamples[i] = TIME_UNIT;
 	}
 }
 
-template <class T, unsigned int m, unsigned int n>
-void IntegrableNumber<T, m, n>::setValue(T x, float elapsedTime)
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+void IntegrableNumber<T, sampleCount, maxOrder>::setValue(T x, float elapsedTime)
 {
 	T sum = mSum.getValue(0);
 
 	mCurrentIndex++;
 
 	int index = mCurrentIndex;
+	T newValue = x * elapsedTime;
 
-	T newValue = x * elapsedTime * frameRate;
+	mTotalTime += elapsedTime - mTimeSamples[index];
+	sum += (newValue - mSamples[index]) / mTotalTime;	
 
-	sum += newValue - mSamples[index];
-
-	mSum.setValue(sum);
+	mSum.setValue(sum);	
 
 	mSamples[index] = newValue;
 	mCurrentValue = x;
 
 }
 
-template <class T, unsigned int m, unsigned int n>
-T IntegrableNumber<T, m, n>::getValue(int order)
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+void IntegrableNumber<T, sampleCount, maxOrder>::forceValue(T x, float elapsedTime)
+{
+	
+	T newValue = x * elapsedTime;	// we do not have to multiply by the framerate
+									// because we divide by the total time later
+
+	T sum = mInitialValue;
+
+	for(int i = 0; i < sampleCount; i++)
+	{
+		mSamples[i] = newValue;
+		sum += newValue;
+	}
+
+	mTotalTime = sampleCount * elapsedTime;
+	
+	mSum.forceValue(sum / mTotalTime, elapsedTime);
+	
+	mCurrentValue = x;
+}
+
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+T IntegrableNumber<T, sampleCount, maxOrder>::getValue(int order) const
 {
 	if(order == 0)
 	{
@@ -99,7 +146,7 @@ T IntegrableNumber<T, m, n>::getValue(int order)
 	}
 	else if(order > 0)
 	{
-		if(order <= n)
+		if(order <= maxOrder)
 		{
 			return mSum.getValue(order - 1);
 		}
@@ -109,67 +156,108 @@ T IntegrableNumber<T, m, n>::getValue(int order)
 
 }
 
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+T IntegrableNumber<T, sampleCount, maxOrder>::getSample(int i) const
+{
+	return mSamples[i % sampleCount];
+}
+
 /**
 	This is the stop class for the recursive template definition of
 	IntegrableNumber. All the methods work the same as
 	IntegrableNumber - see the documentation there.
 */
-template <class T, unsigned int m>
-class IntegrableNumber<T, m, 1>
+template <class T, unsigned int sampleCount>
+class IntegrableNumber<T, sampleCount, 1>: public AbstractFilteredNumber<T, sampleCount, 1>
 {
 private:
-	T mSamples[m];	
+	T mSamples[sampleCount];	
+	T mTimeSamples[sampleCount];	
 	CyclicNumber<int> mCurrentIndex;	
 	T mCurrentValue;
 	T mInitialValue;
 	T mSum;
+	float mTotalTime;
 
 public:
 	/**
-		@see IntegrableNumber<T, m, n>::IntegrableNumber()
+		@see IntegrableNumber<T, sampleCount, n>::IntegrableNumber()
 	*/
 	IntegrableNumber(T initialValue);
 
 	/**
-		@see IntegrableNumber<T, m, n>::setValue()
+		@see IntegrableNumber<T, sampleCount, n>::setValue()
 	*/
 	void setValue(T x, float elapsedTime = 1.0f);
 
 	/**
-		@see IntegrableNumber<T, m, n>::getValue()
+		@see IntegrableNumber<T, sampleCount, n>::getValue()
 	*/
-	T getValue(int order);
+	T getValue(int order) const;
+
+	T getSample(int i) const;
+
+	void forceValue(T x, float elapsedTime = 1.0f);
 };
 
-template <class T, unsigned int m>
-IntegrableNumber<T, m, 1>::IntegrableNumber(T initialValue):
+template <class T, unsigned int sampleCount>
+IntegrableNumber<T, sampleCount, 1>::IntegrableNumber(T initialValue):
 	mInitialValue(initialValue),
 	mCurrentValue(initialValue),
-	mCurrentIndex(0, 0, m, 1),
-	mSum(initialValue)
+	mCurrentIndex(0, 0, sampleCount, 1),
+	mSum(initialValue),
+	mTotalTime(sampleCount * TIME_UNIT)
 {
-	for(int i = 0; i < m; i++)
+	for(int i = 0; i < sampleCount; i++)
 	{
 		mSamples[i] = initialValue;
+		mTimeSamples[i] = TIME_UNIT;
 	}
 }
 
-template <class T, unsigned int m>
-void IntegrableNumber<T, m, 1>::setValue(T x, float elapsedTime)
+template <class T, unsigned int sampleCount>
+void IntegrableNumber<T, sampleCount, 1>::setValue(T x, float elapsedTime)
 {
 	mCurrentIndex++;
 
 	int index = mCurrentIndex;
 
-	T newValue = x * elapsedTime * frameRate;
+	T newValue = x * elapsedTime;
 
-	mSum += newValue - mSamples[index];
+	mTotalTime += elapsedTime - mTimeSamples[index];
+	mSum += (newValue - mSamples[index]) / mTotalTime;
+	
+
 	mSamples[index] = newValue;
+	mTimeSamples[index] = elapsedTime;
+
 	mCurrentValue = x;
 }
 
-template <class T, unsigned int m>
-T IntegrableNumber<T, m, 1>::getValue(int order)
+template <class T, unsigned int sampleCount>
+void IntegrableNumber<T, sampleCount, 1>::forceValue(T x, float elapsedTime)
+{
+	T newValue = x * elapsedTime;
+
+	mSum = mInitialValue; //zero
+
+	for(int i = 0; i < sampleCount; i++)
+	{
+		mSamples[i] = newValue;
+		mTimeSamples[i] = elapsedTime;
+
+		mSum += newValue;		
+	}	
+
+	mTotalTime = sampleCount * elapsedTime;
+	mSum /= mTotalTime;
+
+
+	mCurrentValue = x;
+}
+
+template <class T, unsigned int sampleCount>
+T IntegrableNumber<T, sampleCount, 1>::getValue(int order) const
 {
 	if(order == 0)
 	{
@@ -177,10 +265,16 @@ T IntegrableNumber<T, m, 1>::getValue(int order)
 	}
 	else if(order == 1)
 	{
-		return mSum;		
+		return mSum;
 	}
 
 	return mInitialValue;
+}
+
+template <class T, unsigned int sampleCount>
+T IntegrableNumber<T, sampleCount, 1>::getSample(int i) const
+{
+	return mSamples[i % sampleCount];
 }
 
 /**
@@ -188,52 +282,17 @@ T IntegrableNumber<T, m, 1>::getValue(int order)
 	generally not be used. It is nothing more than a wrapper for the value;
 	the elapsedTime is ignored.
 */
-template <class T, unsigned int m>
-class IntegrableNumber<T, m, 0>
+template <class T, unsigned int sampleCount>
+class IntegrableNumber<T, sampleCount, 0>: public AbstractFilteredNumber<T, sampleCount, 0>
 {
-private:
-	T mCurrentValue;
-	T mInitialValue;
-
-
 public:
 	IntegrableNumber(T initialValue);
-
-	/**
-		Sets the current value of this IntegrableNumber.
-		The elapsedTime variable is ignored.
-	*/
-	void setValue(T x, float elapsedTime = 1.0f);
-
-	/**
-		Only m = 0 will give anything other than the 
-		initialValue.
-	*/
-	T getValue(int order);
 };
 
-template <class T, unsigned int m>
-IntegrableNumber<T, m, 0>::IntegrableNumber(T initialValue):
-	mInitialValue(initialValue),
-	mCurrentValue(initialValue)
+template <class T, unsigned int sampleCount>
+IntegrableNumber<T, sampleCount, 0>::IntegrableNumber(T initialValue):
+	AbstractFilteredNumber(initialValue)
 {
-}
-
-template <class T, unsigned int m>
-void IntegrableNumber<T, m, 0>::setValue(T x, float elapsedTime)
-{
-	mCurrentValue = x;
-}
-
-template <class T, unsigned int m>
-T IntegrableNumber<T, m, 0>::getValue(int order)
-{
-	if(order == 0)
-	{
-		return mCurrentValue;
-	}
-	
-	return mInitialValue;
 }
 
 }} //namespace
