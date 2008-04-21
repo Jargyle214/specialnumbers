@@ -211,6 +211,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\TestBufferedNumber.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TestBufferedState.h"
 					>
 				</File>
@@ -231,7 +235,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\TestFilteredNumber.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TestIntegrableNumber.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TestNumberWrapper.h"
 					>
 				</File>
 				<File

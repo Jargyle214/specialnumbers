@@ -7,6 +7,8 @@
 
 #include "TestUtils.h"
 
+#include "TestNumberWrapper.h"
+
 #include "TestClampedNumber.h"
 #include "TestCyclicNumber.h"
 #include "TestPingPongNumber.h"
@@ -16,14 +18,20 @@
 #include "TestBufferedStep.h"
 
 #include "TestResponseCurve.h"
+#include "TestBufferedNumber.h"
 
+#include "TestFilteredNumber.h"
 
 #include "TestDifferentiableNumber.h"
 #include "TestIntegrableNumber.h"
 #include "TestPIDBufferedNumber.h"
 
 #include "TestPeriodicResponseCurve.h"
- 
+
+#include "BufferedNumber.h"
+
+#include <stdlib.h>
+
 int main(int , char * [])
 {
 	return UnitTest::RunAllTests();

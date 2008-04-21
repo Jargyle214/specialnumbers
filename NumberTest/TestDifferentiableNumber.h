@@ -112,4 +112,48 @@ SUITE(TestDifferentiableNumber)
 		CHECK_CLOSE(0.0f, n.getValue(3), FLOAT_THRESHOLD);
 		CHECK_CLOSE(1.5f, n.getValue(4), FLOAT_THRESHOLD);
 	}
+
+	TEST(TestForceValue2)
+	{
+		DifferentiableNumber<float, 2> n(0.0f);
+
+		n.setValue(10);
+		n.setValue(20);
+		n.setValue(40);
+		n.setValue(70);
+
+		n.forceValue(0);
+
+		CHECK_CLOSE(0.0f, n.getValue(0), FLOAT_THRESHOLD);
+		CHECK_CLOSE(0.0f, n.getValue(1), FLOAT_THRESHOLD);
+		CHECK_CLOSE(0.0f, n.getValue(2), FLOAT_THRESHOLD);		
+		
+		n.setValue(10);
+		n.setValue(20);
+		n.setValue(40);
+		n.setValue(70);
+
+		n.forceValue(10);
+
+		CHECK_CLOSE(10.0f, n.getValue(0), FLOAT_THRESHOLD);
+		CHECK_CLOSE(0.0f, n.getValue(1), FLOAT_THRESHOLD);
+		CHECK_CLOSE(0.0f, n.getValue(2), FLOAT_THRESHOLD);
+	}
+
+	TEST(TestForceValue0)
+	{
+		DifferentiableNumber<float, 0> n(0.0f);
+
+		n.setValue(10);		
+
+		n.forceValue(0);
+
+		CHECK_CLOSE(0.0f, n.getValue(0), FLOAT_THRESHOLD);		
+		
+		n.setValue(20);
+		
+		n.forceValue(10);
+
+		CHECK_CLOSE(10.0f, n.getValue(0), FLOAT_THRESHOLD);
+	}
 }
