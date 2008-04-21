@@ -104,7 +104,7 @@ public:
 	/**
 		Returns the last triggered state.
 	*/
-	unsigned int getState();
+	unsigned int getState() const;
 
 	/**
 		Forces the state to the given state. 
@@ -170,7 +170,7 @@ void BufferedState<n>::setState(unsigned int state, float ellapsedTime)
 }
 
 template <unsigned int n>
-unsigned int BufferedState<n>::getState()
+unsigned int BufferedState<n>::getState() const
 {
 	return mState;
 }

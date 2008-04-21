@@ -33,9 +33,9 @@ class RangedNumber
 {
 protected:
     T mValue;
-	/*const*/ T mMin;
-	/*const*/ T mMax;
-	/*const*/ T mIncrement;
+	T mMin;
+	T mMax;
+	T mIncrement;
 
 public:
 	/**
@@ -125,7 +125,12 @@ public:
 	*/
 	const T& increment() const;
 
-	virtual T getValidValue(const T& value) = 0;
+	virtual T getValidValue(const T& value) const = 0;
+
+	/**
+		Returns the vlaue of this ranged number.
+	*/
+	T getValue() const;
 };
 
 
@@ -204,6 +209,12 @@ void RangedNumber<T>::setIncrement(const T& increment)
 {
 	mIncrement = increment;
 	mValue = getValidValue(mValue);
+}
+
+template <class T>
+T RangedNumber<T>::getValue() const
+{
+	return mValue;
 }
 
 }} //namespace

@@ -111,7 +111,17 @@ public:
 	*/
 	void forceValue(bool value);
 
+	/**
+		Sets the uincreemnt value for this buffered bool. In general, 
+		the larger this value, the quicker the bool will chnage states.
+	*/
 	void setIncrement(float increment);
+
+	/**
+		Returns the internal float value that regulates the boolean
+		value. This function is useful for debugging.
+	*/
+	float getFloatValue() const;
 
 };
 }}//namespace

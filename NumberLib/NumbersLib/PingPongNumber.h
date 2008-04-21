@@ -43,7 +43,7 @@ private:
 	/**
 		Converts the internal cyclic value to a ping pong value.
 	*/
-	inline T pingPongValue(T value)
+	inline T pingPongValue(T value) const
 	{
 		return value > mMax ? mCyclicNumber.max() - value: value;
 	}
@@ -51,7 +51,7 @@ private:
 	/**
 		Converts the internal cyclic value to a ping pong value.
 	*/
-	inline T pingPongValue()
+	inline T pingPongValue() const
 	{
 		return pingPongValue((T) mCyclicNumber);
 	}
@@ -79,7 +79,7 @@ public:
 	virtual void dec(float elapsedTime = 1);
 	virtual void inc(float elapsedTime = 1);
 
-	virtual T getValidValue(const T& value);
+	virtual T getValidValue(const T& value) const;
 };
 
 template <class T>
@@ -152,7 +152,7 @@ PingPongNumber<T> PingPongNumber<T>::operator--(int)
 }
 
 template <class T>
-T PingPongNumber<T>::getValidValue(const T& value)
+T PingPongNumber<T>::getValidValue(const T& value) const
 {
 	return pingPongValue(mCyclicNumber.getValidValue(value));
 }

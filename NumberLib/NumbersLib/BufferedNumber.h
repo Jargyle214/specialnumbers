@@ -40,8 +40,9 @@ public:
 		Returns the value of this buffered number. This value is
 		always in the interval [min, max). 
 	*/
-	T getValue();
+	T getValue() const;
 	void setValue(T value, float elapsedTime = 1.0f);
+	void forceValue(T value);
 };
 
 template <class T, class Number>
@@ -52,7 +53,7 @@ BufferedNumber<T, Number>::BufferedNumber(T initialValue, T min, T max, T increm
 }
 
 template <class T, class Number>
-T BufferedNumber<T, Number>::getValue()
+T BufferedNumber<T, Number>::getValue() const
 {
 	return mValue;
 }
@@ -62,10 +63,19 @@ void BufferedNumber<T, Number>::setValue(T value, float elapsedTime)
 {
 	mIdealValue.setValue(value);
 
-	if(mValue < mIdealValue)
+	if (mValue + mValue.increment() * elapsedTime * frameRate < mIdealValue)
 		mValue.inc(elapsedTime);	
-	else if(mValue > mIdealValue)
+	else if(mValue - mValue.increment() * elapsedTime * frameRate > mIdealValue)
 		mValue.dec(elapsedTime);
+	else
+		mValue.setValue(value);
+}
+
+template <class T, class Number>
+void BufferedNumber<T, Number>::forceValue(T value)
+{
+	mIdealValue.setValue(value);
+	mValue.setValue(value);
 }
 
 };}; //namespace

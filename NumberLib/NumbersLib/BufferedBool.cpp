@@ -53,4 +53,9 @@ void BufferedBool::setIncrement(float increment)
 	mFloatValue.setIncrement(increment);
 }
 
+float BufferedBool::getFloatValue() const
+{
+	return mFloatValue.getValue();
+}
+
 }} //namespace

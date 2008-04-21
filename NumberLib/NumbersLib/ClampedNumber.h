@@ -27,7 +27,7 @@ template <class T>
 class ClampedNumber: public RangedNumber<T>
 {
 protected:
-	virtual T getValidValue(const T& value);
+	virtual T getValidValue(const T& value) const;
 public:
 	/**
 		Creates a ClampedNumber clamped between min and max - increment, with the given value.
@@ -152,7 +152,7 @@ ClampedNumber<T>& ClampedNumber<T>::operator-=(const T& increment)
 }
 
 template <class T>
-T ClampedNumber<T>::getValidValue(const T& value)
+T ClampedNumber<T>::getValidValue(const T& value) const
 {
 	return clamp(value, RangedNumber<T>::mMin, RangedNumber<T>::mMax - RangedNumber<T>::mIncrement);
 }

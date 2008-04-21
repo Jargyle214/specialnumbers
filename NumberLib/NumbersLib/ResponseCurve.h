@@ -14,7 +14,7 @@ namespace numbers
 	@param T
 		The number type of the input and output, usually float or double.
 */
-template <unsigned int n, class T>
+template <class T, unsigned int n>
 class ResponseCurve
 {
 public:
@@ -43,10 +43,10 @@ public:
 		@param input
 			The input for which output is sought.
 	*/
-	T operator()(const T input);
+	T operator()(const T input) const;
 
-	inline public T getInputMin();
-	inline public T getInputMax();
+	inline public T getInputMin() const;
+	inline public T getInputMax() const;
 
 private:
 	T mInputMin;
@@ -60,8 +60,8 @@ private:
 	T mPeriod;
 };
 
-template <unsigned int n, class T>
-ResponseCurve<n, T>::ResponseCurve(T inputMin, T inputMax, T outputSamples[n]):
+template <class T, unsigned int n>
+ResponseCurve<T, n>::ResponseCurve(T inputMin, T inputMax, T outputSamples[n]):
 	mInputMin(inputMin),
 	mInputMax(inputMax),
 	mPeriod((inputMax - inputMin) / (n - 1))
@@ -72,8 +72,8 @@ ResponseCurve<n, T>::ResponseCurve(T inputMin, T inputMax, T outputSamples[n]):
 	}
 }
 
-template <unsigned int n, class T>
-T ResponseCurve<n, T>::operator()(const T input)
+template <class T, unsigned int n>
+T ResponseCurve<T, n>::operator()(const T input) const
 {
 	if(input <= mInputMin)
 	{
@@ -91,14 +91,14 @@ T ResponseCurve<n, T>::operator()(const T input)
 	return lerp(input, inputSampleMin, inputSampleMin + mPeriod, mOutputSamples[index], mOutputSamples[index + 1]);
 }
 
-template <unsigned int n, class T>
-T ResponseCurve<n, T>::getInputMin()
+template <class T, unsigned int n>
+T ResponseCurve<T, n>::getInputMin() const
 {
 	return mInputMin;
 } 
 
-template <unsigned int n, class T>
-T ResponseCurve<n, T>::getInputMax()
+template <class T, unsigned int n>
+T ResponseCurve<T, n>::getInputMax() const
 {
 	return mInputMax;
 }

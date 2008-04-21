@@ -75,7 +75,7 @@ public:
 	*/
 	CyclicNumber<T>& operator-=(const T& decrement);
 
-	virtual T getValidValue(const T& value);
+	virtual T getValidValue(const T& value) const;
 
 	virtual void dec(float elapsedTime = 1);
 	virtual void inc(float elapsedTime = 1);
@@ -158,7 +158,7 @@ CyclicNumber<T>& CyclicNumber<T>::operator-=(const T& increment)
 }
 
 template <class T>
-T CyclicNumber<T>::getValidValue(const T& value)
+T CyclicNumber<T>::getValidValue(const T& value) const
 {
 	return mod(value, mMin, mMax);
 }

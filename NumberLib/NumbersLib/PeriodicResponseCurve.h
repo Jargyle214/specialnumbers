@@ -47,22 +47,22 @@ public:
 		@param input
 			The input for which output is sought.
 	*/
-	T operator()(const T input);
+	T operator()(const T input) const;
 
 	/**
 		Returns the inputMin for this PeriodicResponseCurve
 		(the value pass to the constructor).
 	*/
-	inline T getInputMin();
+	inline T getInputMin() const;
 
 	/**
 		Returns the outputMin for this PeriodicResponseCurve 
 		(the value passed to the constructor).
 	*/
-	inline T getInputMax();
+	inline T getInputMax() const;
 
 private:	
-	ResponseCurve<n, T> mResponseCurve;
+	ResponseCurve<T, n> mResponseCurve;
 
 };
 
@@ -72,7 +72,7 @@ PeriodicResponseCurve<T, n>::PeriodicResponseCurve(T inputMin, T inputMax, T out
 {}
 
 template <class T, unsigned int n>
-T PeriodicResponseCurve<T, n>::operator() (const T input)
+T PeriodicResponseCurve<T, n>::operator() (const T input) const
 {
 	T inputInRange = mod(input, getInputMin(), getInputMax());
 
@@ -80,13 +80,13 @@ T PeriodicResponseCurve<T, n>::operator() (const T input)
 }
 
 template <class T, unsigned int n>
-T PeriodicResponseCurve<T, n>::getInputMin()
+T PeriodicResponseCurve<T, n>::getInputMin() const
 {
 	return mResponseCurve.getInputMin();
 } 
 
 template <class T, unsigned int n>
-T PeriodicResponseCurve<T, n>::getInputMax()
+T PeriodicResponseCurve<T, n>::getInputMax() const
 {
 	return mResponseCurve.getInputMax();
 }
