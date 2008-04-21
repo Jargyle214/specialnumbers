@@ -165,6 +165,10 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AbstractFilteredNumber.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BufferedBool.h"
 				>
 			</File>
@@ -193,11 +197,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FilteredNumber.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IntegrableNumber.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Numbers.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NumberWrapper.h"
 				>
 			</File>
 			<File
