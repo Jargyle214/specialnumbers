@@ -90,7 +90,14 @@ public:
 			DifferentiableNumber to get the value of. If m == 0,
 			the current value is returned.
 	*/
-	T getValue(unsigned int m = 0);
+	T getValue(unsigned int m = 0) const;
+
+	/**
+		Force this number to the given value. 
+		Internal derivative are forced to 0.
+	*/
+
+	void forceValue(T value);
 };
 
 template <class T, unsigned int n>
@@ -103,6 +110,15 @@ void DifferentiableNumber<T, n>::setValue(T value, float elapsedTime)
 }
 
 template <class T, unsigned int n>
+void DifferentiableNumber<T, n>::forceValue(T value)
+{
+	mPreviousValue = value;
+	mValue = value;
+
+	mDifference.forceValue(mInitialValue);
+}
+
+template <class T, unsigned int n>
 DifferentiableNumber<T, n>::DifferentiableNumber(T initialValue):
 	mInitialValue(initialValue),
 	mValue(initialValue),
@@ -112,7 +128,7 @@ DifferentiableNumber<T, n>::DifferentiableNumber(T initialValue):
 }
 
 template <class T, unsigned int n>
-T DifferentiableNumber<T, n>::getValue(unsigned int m)
+T DifferentiableNumber<T, n>::getValue(unsigned int m) const
 {
 	if(m == 0)
 	{
@@ -155,10 +171,12 @@ public:
 	*/
 	void setValue(T value, float elapsedTime = 1.0f);
 
+	void forceValue(T value);
+
 	/**
 	@see DifferentiableNumber<T, n>::getValue()
 	*/
-	T getValue(unsigned int m = 0);
+	T getValue(unsigned int m = 0) const;
 };
 
 template <class T>
@@ -170,6 +188,15 @@ void DifferentiableNumber<T, 1>::setValue(T value, float elapsedTime)
 }
 
 template <class T>
+void DifferentiableNumber<T, 1>::forceValue(T value)
+{
+	mPreviousValue = value;
+	mValue = value;
+	mDifference = mInitialValue;
+}
+
+
+template <class T>
 DifferentiableNumber<T, 1>::DifferentiableNumber(T initialValue):
 	mInitialValue(initialValue),
 	mValue(initialValue),
@@ -179,7 +206,7 @@ DifferentiableNumber<T, 1>::DifferentiableNumber(T initialValue):
 }
 
 template <class T>
-T DifferentiableNumber<T, 1>::getValue(unsigned int m)
+T DifferentiableNumber<T, 1>::getValue(unsigned int m) const
 {
 	if(m == 0)
 	{
@@ -217,11 +244,19 @@ public:
 		Only m = 0 will give anything other than the 
 		initialValue.
 	*/
-	T getValue(unsigned int m = 0);
+	T getValue(unsigned int m = 0) const;
+
+	void forceValue(T value);
 };
 
 template <class T>
 void DifferentiableNumber<T, 0>::setValue(T value, float)
+{	
+	mValue = value;	
+}
+
+template <class T>
+void DifferentiableNumber<T, 0>::forceValue(T value)
 {	
 	mValue = value;	
 }
@@ -234,7 +269,7 @@ DifferentiableNumber<T, 0>::DifferentiableNumber(T initialValue):
 }
 
 template <class T>
-T DifferentiableNumber<T, 0>::getValue(unsigned int m)
+T DifferentiableNumber<T, 0>::getValue(unsigned int m) const
 {
 	if(m == 0)
 	{
