@@ -78,11 +78,24 @@ public:
 	void setValue(T x, float elapsedTime = 1.0f);
 
 	/**
+		Sets the current value of this PIDBufferedNumber.
+	*/
+	void forceValue(T x, float elapsedTime = 1.0f);
+
+	/**
 		Returns a weighted sum of the current value, 
 		its derivatives, and its integrals. The weights 
 		are the factors passed in to the constructor.
 	*/
-	T getValue();
+	T getValue() const;
+
+	T getSample(int i) const;
+
+	/**
+	Forces this controller to the given value. This means
+	all samples are forced to this value.
+	*/
+
 };
 
 template<class T, unsigned int dn, unsigned int in, unsigned int im>
@@ -116,7 +129,15 @@ void PIDBufferedNumber<T, dn, in, im>::setValue(T x, float elapsedTime)
 }
 
 template<class T, unsigned int dn, unsigned int in, unsigned int im>
-T PIDBufferedNumber<T, dn, in, im>::getValue()
+void PIDBufferedNumber<T, dn, in, im>::forceValue(T x, float elapsedTime)
+{
+	mValue = x;
+	mDifferentiableValue.forceValue(x);
+	mIntegrableValue.forceValue(x, elapsedTime);
+}
+
+template<class T, unsigned int dn, unsigned int in, unsigned int im>
+T PIDBufferedNumber<T, dn, in, im>::getValue() const
 {
 	T sum = mValue * mValueFactor;
 
@@ -131,6 +152,12 @@ T PIDBufferedNumber<T, dn, in, im>::getValue()
 	}
 	
 	return sum;
+}
+
+template<class T, unsigned int dn, unsigned int in, unsigned int im>
+T PIDBufferedNumber<T, dn, in, im>::getSample(int i) const
+{
+	return mIntegrableValue.getSample(i);
 }
 
 }}
