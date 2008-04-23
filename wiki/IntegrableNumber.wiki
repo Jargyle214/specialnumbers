@@ -15,12 +15,15 @@ void update(float currentValue)
 {
    v.setValue(currentValue);
 
-   average = 0.3333f * v.getValue(1);
+   average = v.getValue(1);
 }
 
 }}}
 
-Here {{{v}}} keeps track of the last three values of {{{v}}}, sothat the average value of {{{v}}} over three updates is given by {{{1.0 / 3 * v.getValue()}}}. We can also keep an average of the average:
+Here {{{v}}} keeps track of the average of the last three values of {{{v}}}. In the following example, the average of the 
+last three averages is calculated.
+
+
 
 {{{
 
@@ -32,7 +35,7 @@ void update(float currentValue)
 {
    v.setValue(currentValue);
 
-   average = 0.1111f * v.getValue(2);
+   average_of_averages = v.getValue(2);
 }
 
 }}}
