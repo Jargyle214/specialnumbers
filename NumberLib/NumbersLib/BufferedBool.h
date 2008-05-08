@@ -68,7 +68,7 @@ namespace numbers
 	@author luma/games (http://www.luma.co.za/)
 */
 
-	class BufferedBool : UpdateableNumber<bool>
+class BufferedBool : public UpdateableNumber<bool>
 {
 private:
 	float mBottomThreshold;

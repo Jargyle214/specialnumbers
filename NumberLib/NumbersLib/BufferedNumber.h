@@ -18,7 +18,7 @@ namespace numbers
 	The function is updated everyTime setValue() is called.
 
 	@f[
-		y_n = y_{n-1} + \text{sign}(x_n - y_{n-1}) \max(d, |y_{n-1} - x_n|).
+		y_n = y_{n-1} + sign(x_n - y_{n-1}) \max(d, |y_{n-1} - x_n|).
 	@f]
 
 	@author Herman Tulleken (herman.tulleken@gmail.com)

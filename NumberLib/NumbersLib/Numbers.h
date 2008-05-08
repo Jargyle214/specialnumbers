@@ -50,7 +50,7 @@
 	Classes provided falls in three categories:
 	-	RangedNumber and its subclasses; 
 	-	Updateable and its subclasses, as well as BufferedStep; and
-	-	ResponseCurve and its subclasses.
+	-	AbstractFunction and its subclasses.
 
 	Many classes in this namespace are smart wrappers for primitive types.
 	This makes them ideal candidates for operator overloading. However:
@@ -108,10 +108,13 @@
 
 	@par Changes 1.5
 	-	Defined UpdateableNumber, a common interface for BufferedNumber, 
-		BufferedBool, and AbstractFilteredNumber.
+		BufferedBool, AbstractFilteredNumber and PIDBufferedNumber.
 	-	Changed the getState, setState, and forceState functions of
 		BufferedState to getValue, setValue, and forceValue.
-	-	Added more docum
+	-	Added more documentation
+	-	Minor bug fixes with PingPongNumber
+	-	Added AbstractFunction and made ResponseCurve and PeriodicResponseCurve
+		extends from it.
 */
 
 /**

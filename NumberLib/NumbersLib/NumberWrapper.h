@@ -1,6 +1,8 @@
 #ifndef _NUMBER_WRAPPER_H_
 #define _NUMBER_WRAPPER_H_
 
+#include "UpdateableNumber.h"
+
 namespace luma{
 namespace numbers {
 
@@ -20,7 +22,7 @@ namespace numbers {
 	It might be removed in the future.
 */
 template <class T>
-class NumberWrapper
+class NumberWrapper : public UpdateableNumber<T>
 {
 public:
 

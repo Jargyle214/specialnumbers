@@ -1,7 +1,8 @@
 #ifndef _PERIODIC_RESPONSE_CURVE_H_
 #define _PERIODIC_RESPONSE_CURVE_H_
 
-#include "ResponseCurve.h"
+
+#include "AbstractFunction.h"
 #include "Utils.h"
 
 /**
@@ -12,7 +13,7 @@
 
 */
 template <class T, unsigned int n>
-class PeriodicResponseCurve
+class PeriodicResponseCurve: public AbstractFunction<T>
 {
 public:
 	/**

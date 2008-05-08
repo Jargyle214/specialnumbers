@@ -29,7 +29,7 @@ namespace numbers
 		The number of samples over hwich the integration will be.
 */
 template<class T, unsigned int dn, unsigned int in, unsigned int im>
-class PIDBufferedNumber
+class PIDBufferedNumber : public UpdateableNumber<T>
 {
 private:
 	/** The current value*/

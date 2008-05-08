@@ -169,6 +169,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\AbstractFunction.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BufferedBool.h"
 				>
 			</File>

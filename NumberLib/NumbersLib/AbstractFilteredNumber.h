@@ -39,7 +39,7 @@ T AbstractFilteredNumber<T, sampleCount, maxOrder>::getValue() const
 	the elapsedTime is ignored.
 */
 template <class T, unsigned int sampleCount>
-class AbstractFilteredNumber<T, sampleCount, 0>
+class AbstractFilteredNumber<T, sampleCount, 0> : public UpdateableNumber<T>
 {
 private:
 	T mCurrentValue;
@@ -60,6 +60,11 @@ public:
 		initialValue.
 	*/
 	virtual T getValue(unsigned int order) const;
+
+	/**
+		Returns the value of this AsbtractFilteredNumber (always of order 0).
+	*/
+	virtual T getValue() const;
 
 	/** 
 		The elapsed time is ignored.
@@ -84,6 +89,12 @@ template <class T, unsigned int sampleCount>
 void AbstractFilteredNumber<T, sampleCount, 0>::forceValue(T x, float /*ignore parameter*/)
 {
 	mCurrentValue = x;
+}
+
+template <class T, unsigned int sampleCount>
+T AbstractFilteredNumber<T, sampleCount, 0>::getValue() const
+{
+	return getValue(0);
 }
 
 template <class T, unsigned int sampleCount>

@@ -1,5 +1,7 @@
-#ifndef _RESPONSE_CURVE_H
-#define _RESPONSE_CURVE_H
+#ifndef _RESPONSE_CURVE_H_
+#define _RESPONSE_CURVE_H_
+
+#include "AbstractFunction.h"
 
 namespace luma
 {
@@ -19,7 +21,7 @@ namespace numbers
 		The number type of the input and output, usually float or double.
 */
 template <class T, unsigned int n>
-class ResponseCurve
+class ResponseCurve : public AbstractFunction<T>
 {
 public:
 	/**
@@ -107,6 +109,6 @@ T ResponseCurve<T, n>::getInputMax() const
 	return mInputMax;
 }
 
-};}; //namespace
+}} //namespace
 
-#endif //_RESPONSE_CURVE_H
+#endif //_RESPONSE_CURVE_H_
