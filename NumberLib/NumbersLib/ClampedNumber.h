@@ -20,7 +20,7 @@ namespace numbers
 
 	@todo Make it possible to use with unsigned int and 0 as bottom limit.
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
 */
 template <class T>

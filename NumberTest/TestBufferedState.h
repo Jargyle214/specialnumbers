@@ -10,7 +10,7 @@ SUITE(TestBufferedState)
 
 		BufferedState<3> b(1, stateValues, thresholds, 0.1f);
 
-		CHECK_EQUAL(1u, b.getState());
+		CHECK_EQUAL(1u, b.getValue());
 	}
 
 	TEST(TestStateTransition)
@@ -22,12 +22,12 @@ SUITE(TestBufferedState)
 
 		for(int i = 0; i < 6; i++)
 		{
-			b.setState(2);
-			CHECK_EQUAL(0u, b.getState());
+			b.setValue(2);
+			CHECK_EQUAL(0u, b.getValue());
 		}
 
-		b.setState(2);
-		CHECK_EQUAL(2u, b.getState());
+		b.setValue(2);
+		CHECK_EQUAL(2u, b.getValue());
 	}
 
 	TEST(TestCopyConstructorInitState)
@@ -38,7 +38,7 @@ SUITE(TestBufferedState)
 		BufferedState<3> b1(1, stateValues, thresholds, 0.1f);
 		BufferedState<3> b2(b1);
 
-		CHECK_EQUAL(1u, b2.getState());
+		CHECK_EQUAL(1u, b2.getValue());
 	}
 
 	TEST(TestCopyConstructorCopiesThresholds)
@@ -51,10 +51,10 @@ SUITE(TestBufferedState)
 
 		for(int i = 0; i < 10; i++)
 		{
-			b1.setState(2);
-			b2.setState(2);
+			b1.setValue(2);
+			b2.setValue(2);
 
-			CHECK_EQUAL(b1.getState(), b2.getState());
+			CHECK_EQUAL(b1.getValue(), b2.getValue());
 		}
 	}
 
@@ -68,10 +68,10 @@ SUITE(TestBufferedState)
 
 		for(int i = 0; i < 10; i++)
 		{
-			b1.setState(2);
-			b2.setState(2);
+			b1.setValue(2);
+			b2.setValue(2);
 
-			CHECK_EQUAL(b1.getState(), b2.getState());
+			CHECK_EQUAL(b1.getValue(), b2.getValue());
 		}
 	}
 
@@ -84,12 +84,12 @@ SUITE(TestBufferedState)
 
 		for(int i = 0; i < 3; i++)
 		{
-			b.setState(2);
-			CHECK_EQUAL(0u, b.getState());
+			b.setValue(2);
+			CHECK_EQUAL(0u, b.getValue());
 		}
 
-		b.setState(2);
-		CHECK_EQUAL(2u, b.getState());
+		b.setValue(2);
+		CHECK_EQUAL(2u, b.getValue());
 	}
 
 	TEST(TestConstructorInitStateValues)
@@ -99,8 +99,8 @@ SUITE(TestBufferedState)
 
 		BufferedState<3> b(0, stateValues, thresholds, 0.2f);
 
-		b.setState(2);
-		CHECK_EQUAL(2u, b.getState());
+		b.setValue(2);
+		CHECK_EQUAL(2u, b.getValue());
 	}
 
 	TEST(TestForceState)
@@ -110,8 +110,8 @@ SUITE(TestBufferedState)
 
 		BufferedState<3> b(0, stateValues, thresholds, 0.2f);
 
-		b.forceState(2);
-		CHECK_EQUAL(2u, b.getState());
+		b.forceValue(2);
+		CHECK_EQUAL(2u, b.getValue());
 	}
 
 	TEST(TestForceStateSetStateValues)
@@ -123,9 +123,9 @@ SUITE(TestBufferedState)
 
 		BufferedState<3> b(0, stateValues, thresholds, 0.2f);
 
-		b.forceState(2);
-		b.setState(0);
-		CHECK_EQUAL(2u, b.getState());
+		b.forceValue(2);
+		b.setValue(0);
+		CHECK_EQUAL(2u, b.getValue());
 	}
 
 

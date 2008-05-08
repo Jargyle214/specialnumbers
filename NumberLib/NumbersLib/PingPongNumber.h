@@ -13,7 +13,7 @@ namespace numbers
 	A PingPongNumber is a number that can grow (or shrink) up to a point, 
 	and then starts shrinking (or growing) again.
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
 
 	For example:
@@ -45,7 +45,7 @@ private:
 	*/
 	inline T pingPongValue(T value) const
 	{
-		return value > mMax ? mCyclicNumber.max() - value: value;
+		return value >= mMax ? 2 * (mMax - mIncrement) - value: value;
 	}
 
 	/**
@@ -80,12 +80,18 @@ public:
 	virtual void inc(float elapsedTime = 1);
 
 	virtual T getValidValue(const T& value) const;
+
+
+	/** Used for debugging and testing only.*/
+	T getCyclicValue() const;
+
+	void setIncrement(const T& increment);
 };
 
 template <class T>
 PingPongNumber<T>::PingPongNumber(T value, T min, T max, T increment):
 	RangedNumber(reflect(value, min, max - increment), min, max, increment),
-	mCyclicNumber(value, min, max + max - min + increment, increment)
+	mCyclicNumber(value, min, max + max - min - increment - increment, increment)
 {
 }
 
@@ -171,6 +177,19 @@ void PingPongNumber<T>::dec(float ellapsedTime)
 	mCyclicNumber.dec(ellapsedTime);
 	mValue = pingPongValue((T) mCyclicNumber);
 
+}
+
+template <class T>
+void PingPongNumber<T>::setIncrement(const T& increment)
+{
+	mCyclicNumber.modify(mMin, 2 * mMax - mMin - 2 * increment, increment);
+	RangedNumber::setIncrement(increment);
+}
+
+template <class T>
+T PingPongNumber<T>::getCyclicValue() const
+{
+	return mCyclicNumber.getValue();
 }
 
 };};//namespace

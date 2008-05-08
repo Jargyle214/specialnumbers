@@ -12,7 +12,7 @@ namespace numbers
 	This class is the base class of numbers that fall
 	in a given range.
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
 
 	The derrived classes differ	by how out of range situations
@@ -60,7 +60,7 @@ public:
 
 	virtual RangedNumber& operator=(const RangedNumber<T>&);
 	virtual RangedNumber& operator=(const T&);
-	void setIncrement(const T&);
+	virtual void setIncrement(const T&);
 	void setValue(const T& value) { mValue = getValidValue(value);}
 	
 	/**

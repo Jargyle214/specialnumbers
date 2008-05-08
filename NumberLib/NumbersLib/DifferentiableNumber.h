@@ -11,6 +11,10 @@ namespace numbers
 	its own derivatives. These are calculated every time 
 	the number's value is set.
 
+	@f[
+	y_n = \Delta x_n = \frac{x_n - x_{n-1}}{t_n}
+	@f]
+
 	The maximum order of differentiation that will be required
 	is set as one of the template parameters. The intitial value
 	with which the DifferentiableNumber is initialised is returned
@@ -49,8 +53,8 @@ namespace numbers
 
 	@see IntegrableNumber
 */
-template <class T, unsigned int n>
-class DifferentiableNumber
+template <class T, unsigned int maxOrder>
+class DifferentiableNumber : public AbstractFilteredNumber<T, 2, maxOrder>
 {
 private:
 	T mValue;
@@ -62,7 +66,7 @@ private:
 		maintained as a DifferentiableNumber<n - 1, T>. It will keep
 		track of its own derivatives.
 	*/
-	DifferentiableNumber<T, n - 1> mDifference;
+	DifferentiableNumber<T, maxOrder - 1> mDifference;
 
 public:
 	/**
@@ -90,7 +94,7 @@ public:
 			DifferentiableNumber to get the value of. If m == 0,
 			the current value is returned.
 	*/
-	T getValue(unsigned int m = 0) const;
+	T getValue(unsigned int order = 1) const;
 
 	/**
 		Force this number to the given value. 
@@ -100,8 +104,8 @@ public:
 	void forceValue(T value);
 };
 
-template <class T, unsigned int n>
-void DifferentiableNumber<T, n>::setValue(T value, float elapsedTime)
+template <class T, unsigned int maxOrder>
+void DifferentiableNumber<T, maxOrder>::setValue(T value, float elapsedTime)
 {
 	mPreviousValue = mValue;
 	mValue = value;
@@ -109,8 +113,8 @@ void DifferentiableNumber<T, n>::setValue(T value, float elapsedTime)
 	mDifference.setValue((mValue - mPreviousValue) / (elapsedTime * frameRate));
 }
 
-template <class T, unsigned int n>
-void DifferentiableNumber<T, n>::forceValue(T value)
+template <class T, unsigned int maxOrder>
+void DifferentiableNumber<T, maxOrder>::forceValue(T value)
 {
 	mPreviousValue = value;
 	mValue = value;
@@ -118,8 +122,8 @@ void DifferentiableNumber<T, n>::forceValue(T value)
 	mDifference.forceValue(mInitialValue);
 }
 
-template <class T, unsigned int n>
-DifferentiableNumber<T, n>::DifferentiableNumber(T initialValue):
+template <class T, unsigned int maxOrder>
+DifferentiableNumber<T, maxOrder>::DifferentiableNumber(T initialValue):
 	mInitialValue(initialValue),
 	mValue(initialValue),
 	mPreviousValue(initialValue),
@@ -127,18 +131,18 @@ DifferentiableNumber<T, n>::DifferentiableNumber(T initialValue):
 {
 }
 
-template <class T, unsigned int n>
-T DifferentiableNumber<T, n>::getValue(unsigned int m) const
+template <class T, unsigned int maxOrder>
+T DifferentiableNumber<T, maxOrder>::getValue(unsigned int order) const
 {
-	if(m == 0)
+	if(order == 0)
 	{
 		return mValue;
 	}
-	else if(m > 0)
+	else if(order > 0)
 	{
-		if(m <= n)
+		if(order <= maxOrder)
 		{
-			return mDifference.getValue(m - 1);
+			return mDifference.getValue(order - 1);
 		}
 	}
 
@@ -151,7 +155,7 @@ T DifferentiableNumber<T, n>::getValue(unsigned int m) const
 	DifferentiableNumber - see the documentation there.
 */
 template <class T>
-class DifferentiableNumber<T, 1>
+class DifferentiableNumber<T, 1> : public AbstractFilteredNumber<T, 2, 1>
 {
 private:
 	T mValue;
@@ -176,7 +180,7 @@ public:
 	/**
 	@see DifferentiableNumber<T, n>::getValue()
 	*/
-	T getValue(unsigned int m = 0) const;
+	T getValue(unsigned int order = 1) const;
 };
 
 template <class T>
@@ -206,13 +210,13 @@ DifferentiableNumber<T, 1>::DifferentiableNumber(T initialValue):
 }
 
 template <class T>
-T DifferentiableNumber<T, 1>::getValue(unsigned int m) const
+T DifferentiableNumber<T, 1>::getValue(unsigned int order) const
 {
-	if(m == 0)
+	if(order == 0)
 	{
 		return mValue;
 	}
-	else if(m == 1)
+	else if(order == 1)
 	{
 		return mDifference;		
 	}
@@ -226,57 +230,20 @@ T DifferentiableNumber<T, 1>::getValue(unsigned int m) const
 	the elapsedTime is ignored.
 */
 template <class T>
-class DifferentiableNumber<T, 0>
+class DifferentiableNumber<T, 0> : public AbstractFilteredNumber<T, 2, 0>
 {
 private:
 	T mValue;
 	T mInitialValue;
 public:
 	DifferentiableNumber(T initialValue);
-
-	/**
-		Sets the current value of this DifferentiableNumber.
-		The elapsedTime variable is ignored.
-	*/
-	void setValue(T value, float elapsedTime = 1.0f);
-
-	/**
-		Only m = 0 will give anything other than the 
-		initialValue.
-	*/
-	T getValue(unsigned int m = 0) const;
-
-	void forceValue(T value);
 };
 
-template <class T>
-void DifferentiableNumber<T, 0>::setValue(T value, float)
-{	
-	mValue = value;	
-}
-
-template <class T>
-void DifferentiableNumber<T, 0>::forceValue(T value)
-{	
-	mValue = value;	
-}
 
 template <class T>
 DifferentiableNumber<T, 0>::DifferentiableNumber(T initialValue):
-	mInitialValue(initialValue),
-	mValue(initialValue)
+	AbstractFilteredNumber(initialValue)
 {
-}
-
-template <class T>
-T DifferentiableNumber<T, 0>::getValue(unsigned int m) const
-{
-	if(m == 0)
-	{
-		return mValue;
-	}	
-
-	return mInitialValue;
 }
 
 };};

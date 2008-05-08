@@ -1,16 +1,18 @@
-#ifndef _NUMBERS_H
-#define _NUMBERS_H
+#ifndef _NUMBERS_H_
+#define _NUMBERS_H_
 
 /**
 	Contains classes for wrapping numbers in logic that occur frequently.
 
-	Download the newest version from 
+	Download the stable version from 
 	<a href="http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/" target="top">
-	http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/</a>.
+	http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/</a>
+	or get the source code directly from the SVN repository:
+	http://code.google.com/p/specialnumbers/.
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
-	@version 1.3
+	@version 1.5
 */
 
 /**
@@ -45,8 +47,12 @@
 	currentSelection--;
 	@endcode
 
+	Classes provided falls in three categories:
+	-	RangedNumber and its subclasses; 
+	-	Updateable and its subclasses, as well as BufferedStep; and
+	-	ResponseCurve and its subclasses.
 
-	Most classes in this namespace are smart wrappers for primitive types.
+	Many classes in this namespace are smart wrappers for primitive types.
 	This makes them ideal candidates for operator overloading. However:
 	- These classes are used in a specialised way which does not make it useful to
 	overload many operators. In fact, many operators may have ambiguous semantics
@@ -55,7 +61,8 @@
 	primitive numbers. This confusion might lead to bugs. See
 	BufferedBool for a confusing example.
 
-	Classes can be used with both integer and floating point types. You should only
+	Classes can be used with both integer and floating point types, as well as other types
+	that satisfy the concept described below. You should only
 	use these classes with floating point types if you don't require a lot of precision.
 	See BufferedBool for an example of unexpected behaviour with floaing point types.
 
@@ -95,6 +102,16 @@
 	-	Made many methods const.
 	-	Added PeriodicResponseCurve.	
 	-	Added NumberWrapper.
+	
+	@par Changes 1.4
+	-	Fixed a bug with PingPongNumber
+
+	@par Changes 1.5
+	-	Defined UpdateableNumber, a common interface for BufferedNumber, 
+		BufferedBool, and AbstractFilteredNumber.
+	-	Changed the getState, setState, and forceState functions of
+		BufferedState to getValue, setValue, and forceValue.
+	-	Added more docum
 */
 
 /**
@@ -119,4 +136,4 @@ namespace luma
 	}
 }
 
-#endif //_NUMBERS_H
+#endif //_NUMBERS_H_

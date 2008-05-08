@@ -7,7 +7,11 @@ namespace numbers
 {
 
 /**
-	This class is described in AI Programming Wisdom 1, "The Beauty of Response Curves", by Bob Alexander.
+	This class is described in AI Programming Wisdom 1, 
+	"The Beauty of Response Curves", by Bob Alexander.
+
+	Essentailly, this class provides a look-up table with 
+	linear interpolation for arbitrary functions.
 
 	@param n 
 		Number of output samples.

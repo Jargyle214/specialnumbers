@@ -2,6 +2,7 @@
 #define _BUFFERED_BOOL_
 
 #include "ClampedNumber.h"
+#include "UpdateableNumber.h"
 
 namespace luma
 {
@@ -63,11 +64,11 @@ namespace numbers
 	0.1 seven times is to 0 gives 0.70000005, so the internal float becomes greater than
 	the threshold one iteration too early. Never rely on exact transitions!
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
 */
 
-class BufferedBool
+	class BufferedBool : UpdateableNumber<bool>
 {
 private:
 	float mBottomThreshold;

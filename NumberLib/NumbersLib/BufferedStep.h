@@ -24,6 +24,8 @@ namespace numbers
 
 	@param n 
 		must be greater than 1, the number states.
+
+	@see UpdateableNumber
 */
 template <unsigned int n> 
 class BufferedStep

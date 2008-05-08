@@ -1,21 +1,37 @@
 #ifndef _ABSTRACT_FILTERED_NUMBER_H_
 #define _ABSTRACT_FILTERED_NUMBER_H_
 
+#include "UpdateableNumber.h"
+
+
+namespace luma
+{
+namespace numbers
+{
+
 /**
 	
 */
 template <class T, unsigned int sampleCount, unsigned int maxOrder>
-class AbstractFilteredNumber
+class AbstractFilteredNumber : public UpdateableNumber<T>
 {
-
 public:
 	/**
-		Get the current value of this AbstractFilteredNumber of the given order.
-
+		Gets the value of this AbstractFilteredNumber of the given order.
 	*/
-	virtual T getValue(int order = 1) const = 0;
-	virtual void setValue(T value, float elapsedTime=TIME_UNIT) = 0;
+	virtual T getValue(unsigned int order) const = 0;
+
+	/**
+		Gets the value of this AbstractFilteredNumber of order 0.
+	*/
+	virtual T getValue() const;
 };
+
+template <class T, unsigned int sampleCount, unsigned int maxOrder>
+T AbstractFilteredNumber<T, sampleCount, maxOrder>::getValue() const
+{
+	return getValue(0);
+}
 
 /**
 	This specialisation is provided for completeness' sake and should
@@ -43,7 +59,7 @@ public:
 		Only m = 0 will give anything other than the 
 		initialValue.
 	*/
-	virtual T getValue(int order) const;
+	virtual T getValue(unsigned int order) const;
 
 	/** 
 		The elapsed time is ignored.
@@ -71,7 +87,7 @@ void AbstractFilteredNumber<T, sampleCount, 0>::forceValue(T x, float /*ignore p
 }
 
 template <class T, unsigned int sampleCount>
-T AbstractFilteredNumber<T, sampleCount, 0>::getValue(int order) const
+T AbstractFilteredNumber<T, sampleCount, 0>::getValue(unsigned int order) const
 {
 	if(order == 0)
 	{
@@ -80,5 +96,8 @@ T AbstractFilteredNumber<T, sampleCount, 0>::getValue(int order) const
 	
 	return mInitialValue;
 }
+
+
+}} //namespace 
 
 #endif //_ABSTRACT_FILTERED_NUMBER_H_

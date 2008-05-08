@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include "ClampedNumber.h"
+#include "UpdateableNumber.h"
 
 namespace luma
 {
@@ -11,19 +12,23 @@ namespace numbers
 
 /**
 	This class mimicks a float, but ensures smooth transitions. 
-	The value returned grows towards the value set. 
+	The value returned grows towards the value set at a maximum 
+	pace. 
 
 	The function is updated everyTime setValue() is called.
 
-	@author Herman Tulleken (herman@luma.co.za)
-	@author luma/games (http://www.luma.co.za/)
+	@f[
+		y_n = y_{n-1} + \text{sign}(x_n - y_{n-1}) \max(d, |y_{n-1} - x_n|).
+	@f]
 
+	@author Herman Tulleken (herman.tulleken@gmail.com)
+	
 	The code of this documentation can be downloaded from
 	http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/.
 */
 
 template <class T, class Number = ClampedNumber<T>>
-class BufferedNumber
+class BufferedNumber : public UpdateableNumber<T>
 {
 private:
 	Number mIdealValue;
@@ -41,7 +46,18 @@ public:
 		always in the interval [min, max). 
 	*/
 	T getValue() const;
-	void setValue(T value, float elapsedTime = 1.0f);
+
+	/**
+		Sets the next input sample for this BufferedNumber.
+	*/
+	void setValue(T value, float elapsedTime = TIME_UNIT);
+
+	/**
+		Forces the value of this BufferedNumber to the given value.
+		After this funcion has been called, the value returned by 
+		the next call to getValue will be the value passed to this 
+		function.
+	*/
 	void forceValue(T value);
 };
 

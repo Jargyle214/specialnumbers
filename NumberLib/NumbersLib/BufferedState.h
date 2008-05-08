@@ -25,12 +25,12 @@ namespace numbers
 	@param n 
 		The number of states.
 
-	@author Herman Tulleken (herman@luma.co.za)
+	@author Herman Tulleken (herman.tulleken@gmail.com)
 	@author luma/games (http://www.luma.co.za/)
 
 */
 template <unsigned int n>
-class BufferedState
+class BufferedState : public UpdateableNumber<unsigned int>
 {
 private:
 
@@ -99,17 +99,17 @@ public:
 		mean that state will be returned next by getState(). This will only happen 
 		after a number of calls to setState, depending on the thresholds and increment.
 	*/
-	void setState(unsigned int state, float ellapsedTime = 1);
+	void setValue(unsigned int state, float ellapsedTime = 1);
 
 	/**
 		Returns the last triggered state.
 	*/
-	unsigned int getState() const;
+	unsigned int getValue() const;
 
 	/**
 		Forces the state to the given state. 
 	*/
-	void forceState(int state);
+	void forceValue(int state);
 };
 
 template <unsigned int n>
@@ -153,7 +153,7 @@ BufferedState<n>::BufferedState(const BufferedState& other):
 }
 
 template <unsigned int n>
-void BufferedState<n>::setState(unsigned int state, float ellapsedTime)
+void BufferedState<n>::setValue(unsigned int state, float ellapsedTime)
 {
 	mStateValues[state].inc(ellapsedTime);
 
@@ -170,13 +170,13 @@ void BufferedState<n>::setState(unsigned int state, float ellapsedTime)
 }
 
 template <unsigned int n>
-unsigned int BufferedState<n>::getState() const
+unsigned int BufferedState<n>::getValue() const
 {
 	return mState;
 }
 
 template <unsigned int n>
-void BufferedState<n>::forceState(int state)
+void BufferedState<n>::forceValue(int state)
 {
 	mState = state;
 

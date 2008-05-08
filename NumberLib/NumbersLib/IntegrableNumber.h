@@ -11,6 +11,10 @@ namespace numbers
 /**
 	An integral number is a number that keeps track of itw own 
 	integrals. 
+
+	@f[
+	y_n = \Sigma x_n = \frac{\sum_{i= n - m + 1}^n x_{n}t_{n}}{\sum_{i = n - m + 1}^nt_n}
+	@f]
 	
 	This class complements the DifferentiableNumber class.
 
@@ -50,12 +54,11 @@ public:
 	void setValue(T x, float elapsedTime = 1.0f);
 
 	/**
-	Forces this integrable number into a long term srteady state.
-	The alpsed time is the time elapsed between samples. For example, 
-	if this integrable number (with say, 10 samples) is forced to a 
-	value of 10, with elapsed 
-	time of 1.0f, then the sum would be 100. If the elapsed time is 3, 
-	then the sum would be 300.
+		Forces this integrable number into a long term srteady state.
+		The alpsed time is the time elapsed between samples. For example, 
+		if this integrable number (with say, 10 samples) is forced to a 
+		value of 10, with elapsed time of 1.0f, then the sum would be 100. 
+		If the elapsed time is 3, then the sum would be 300.
 	*/
 	void forceValue(T x, float elapsedTime = 1.0f);
 
@@ -69,7 +72,7 @@ public:
 			-	if 2, the double integral of the value is returned
 			-	if order > n, the initialValue (0) is returned.
 	*/
-	T getValue(int order) const;
+	T getValue(unsigned int order) const;
 
 	/**
 		This returns the nth sample stored. Note that sample[0] 
@@ -138,7 +141,7 @@ void IntegrableNumber<T, sampleCount, maxOrder>::forceValue(T x, float elapsedTi
 }
 
 template <class T, unsigned int sampleCount, unsigned int maxOrder>
-T IntegrableNumber<T, sampleCount, maxOrder>::getValue(int order) const
+T IntegrableNumber<T, sampleCount, maxOrder>::getValue(unsigned int order) const
 {
 	if(order == 0)
 	{
@@ -193,7 +196,7 @@ public:
 	/**
 		@see IntegrableNumber<T, sampleCount, n>::getValue()
 	*/
-	T getValue(int order) const;
+	T getValue(unsigned int order) const;
 
 	T getSample(int i) const;
 
@@ -257,7 +260,7 @@ void IntegrableNumber<T, sampleCount, 1>::forceValue(T x, float elapsedTime)
 }
 
 template <class T, unsigned int sampleCount>
-T IntegrableNumber<T, sampleCount, 1>::getValue(int order) const
+T IntegrableNumber<T, sampleCount, 1>::getValue(unsigned int order) const
 {
 	if(order == 0)
 	{
