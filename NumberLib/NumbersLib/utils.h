@@ -152,6 +152,13 @@ inline T floor(T x);
 template <class T>
 inline T extreme(T v1, T v2, T center);
 
+/**
+	Integrates a sequence of numbers. Same as accumulating the sequence in place. 
+	For example, the array {0, 1, 2, 3} will be set to {0, 1, 3, 6}.
+*/
+template <unsigned int n, class T>
+void integrate(T samples[]);
+
 
 //---------------------------------------------------------------------------------------
 //	Function definitions
@@ -263,6 +270,16 @@ inline T step(const T& input, const T& inputThreshold, const T& outputMin, const
 	return input < inputThreshold ? outputMin : outputMax;
 }
 
+/**
+*/
+template <unsigned int n, class T>
+void integrate(T samples[])
+{
+	for(int i = 1; i < n; i++)
+	{
+		samples[i] += samples[i - 1];
+	}
+}
 
 }} //namespace
 #endif //_UTILS_H_
