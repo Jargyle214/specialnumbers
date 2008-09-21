@@ -27,6 +27,7 @@
 #include "TestPIDBufferedNumber.h"
 
 #include "TestPeriodicResponseCurve.h"
+#include "TestXYResponseCurve.h"
 
 #include "BufferedNumber.h"
 
