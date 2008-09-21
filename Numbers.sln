@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C++ Express 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumbersLib", "NumberLib\NumbersLib\NumbersLib.vcproj", "{606B7CA0-E155-4792-BAB0-024125A0D8D1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NumberTest", "NumberTest\NumberTest.vcproj", "{05ACA6DF-0384-4037-880B-6A60AD769EF1}"
