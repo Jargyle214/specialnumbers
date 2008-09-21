@@ -1,24 +1,55 @@
 #ifndef _XY_RESPONSE_CURVE_H
 #define _XY_RESPONSE_CURVE_H
 
+#include "AbstractFunction.h"
+
 namespace luma
 {
 namespace numbers
 {
+/**
+	Similar to ResponseCurve, but allows sample points to be unevenly spaced.
 
+	This curve is slower than the ordinary ResponseCurve. However, it is useful 
+	for generating the inverse of a monotonic function. For rapid access, this 
+	curve should be sampled into a ordinary ResponseCurve.
+*/
 template<class T, unsigned int n>
-class XYResponseCurve
+class XYResponseCurve: public AbstractFunction<T>
 {
 public:
+	/**
+		Construct a new XYResponse curve from input and output samples.
+
+		@param inputSamples
+			The input values for this response curve. Must be strictly increasing.
+
+		@param outputSamples
+			The output vlaues for this curve.
+	*/
 	XYResponseCurve(T inputSamples[n], T outputSamples[n]);
-	T operator()(const T input);
+
+	/**
+		If the input is below the inputMin given in the constructor, 
+		the output is clamped to the first output sample.
+
+		If the input is above the inputMax given in the constructor,
+		the output is clamped to the last output sample.
+
+		Otherwise an index is calculated, and the output is interpolated
+		between outputSample[index] and outputSample[index + 1].
+
+		@param input
+			The input for which output is sought.
+	*/
+	T operator()(const T input) const;
 	
 	void makeInverse();
 
 	/**
-		Private: only made public for testing!
+		Private: only made public for testing! Test which input sample lies to the left of the given input.
 	*/
-	unsigned int findInputIndex(T input);
+	unsigned int findInputIndex(const T input) const;
 
 private:
 	T mInputSamples[n];
@@ -37,7 +68,7 @@ XYResponseCurve<T, n>::XYResponseCurve(T inputSamples[n], T outputSamples[n])
 }
 
 template<class T, unsigned int n> 
-T XYResponseCurve<T, n>::operator()(const T input)
+T XYResponseCurve<T, n>::operator()(const T input) const
 {
 	if (input <= mInputSamples[0])
 	{
@@ -62,7 +93,7 @@ T XYResponseCurve<T, n>::operator()(const T input)
 }
 
 template<class T, unsigned int n> 
-unsigned int XYResponseCurve<T, n>::findInputIndex(T input)
+unsigned int XYResponseCurve<T, n>::findInputIndex(const T input) const
 {
 	unsigned int min = 0;
 	unsigned int max = n;

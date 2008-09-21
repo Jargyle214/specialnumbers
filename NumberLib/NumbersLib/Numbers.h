@@ -5,14 +5,12 @@
 	Contains classes for wrapping numbers in logic that occur frequently.
 
 	Download the stable version from 
-	<a href="http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/" target="top">
-	http://www.luma.co.za/labs/2007/09/01/c-special-numbers-library/</a>
-	or get the source code directly from the SVN repository:
-	http://code.google.com/p/specialnumbers/.
+	<a href="http://code.google.com/p/specialnumbers/" target="top">
+	http://code.google.com/p/specialnumbers/</a>.
 
 	@author Herman Tulleken (herman.tulleken@gmail.com)
-	@author luma/games (http://www.luma.co.za/)
-	@version 1.5
+	@author (old) luma/games (http://www.luma.co.za/)
+	@version 1.6
 */
 
 /**
@@ -115,6 +113,10 @@
 	-	Minor bug fixes with PingPongNumber
 	-	Added AbstractFunction and made ResponseCurve and PeriodicResponseCurve
 		extends from it.
+	
+	@par Chnages 1.6
+	-	Added XYResponseCurve
+	-	Added an integrate function in utils.
 */
 
 /**
