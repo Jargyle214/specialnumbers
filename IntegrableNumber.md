@@ -1,0 +1,38 @@
+This is for example useful for keeping a running average of a sequence of values.
+
+For example,
+
+```
+
+Integrable<float, 1, 3> v(0);
+
+...
+
+void update(float currentValue)
+{
+   v.setValue(currentValue);
+
+   average = v.getValue(1);
+}
+
+```
+
+Here `v` keeps track of the average of the last three values of `v`. In the following example, the average of the
+last three averages is calculated.
+
+
+
+```
+
+Integrable<float, 2, 3> v(0);
+
+...
+
+void update(float currentValue)
+{
+   v.setValue(currentValue);
+
+   average_of_averages = v.getValue(2);
+}
+
+```

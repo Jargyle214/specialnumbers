@@ -1,0 +1,50 @@
+The following code illustrates how to get a simple (first order) PID buffered number that will calculate the following:
+
+```
+y_n = 0.5 * x_n + 0.25 * D x_n + 0.25 * I x_n
+    = 0.5 * x_n + 0.25 * (x_n - x_{n-1}) +  0.25 * (x_n + x_{n+1} + + x_{n+2})
+```
+
+```
+float dWeights[] = {0.25f};
+float iWeights[] = {0.25f};
+float weight = 0.5f;
+
+PIDBufferedNumber<float, 1, 1, 3> pidBufferedNumber(0.0f);
+
+...
+
+float update(float x)
+{
+   pidBufferedNumber.setValue(x);
+   float y = pidBufferedNumber.getValue();
+
+   return y;
+}
+```
+
+To implement an PID controller is easy:
+
+```
+
+float dWeights[] = {0.25f};
+float iWeights[] = {0.25f};
+float weight = 0.5f;
+
+PIDBufferedNumber<float, 1, 1, 3> pidBufferedNumber(0.0f);
+
+...
+
+float update(float x)
+{
+   float error = pidBufferedError.getValue() - x;
+ 
+   pidBufferedError.setValue(error);
+   return pidBufferedError.getValue();
+}
+
+```
+
+### Links ###
+  * [PID Without a PhD](http://www.embedded.com/2000/0010/0010feat3.htm) A Good practical guide. [Note: this author use the actual value for the differential term, not the error].
+  * [PID Controller (Wikipedia)](http://en.wikipedia.org/wiki/PID_controller) A good introduction to PID controllers.
